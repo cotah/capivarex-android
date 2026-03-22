@@ -7,6 +7,12 @@ plugins {
     id("com.google.devtools.ksp")
 }
 
+// Read local.properties
+val localProperties = java.util.Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) load(file.inputStream())
+}
+
 android {
     namespace = "com.capivarex.android"
     compileSdk = 35
@@ -21,9 +27,9 @@ android {
         // Backend API URL
         buildConfigField("String", "API_BASE_URL", "\"https://capivarex-production.up.railway.app\"")
 
-        // Supabase
-        buildConfigField("String", "SUPABASE_URL", "\"${project.findProperty("SUPABASE_URL") ?: ""}\"")
-        buildConfigField("String", "SUPABASE_ANON_KEY", "\"${project.findProperty("SUPABASE_ANON_KEY") ?: ""}\"")
+        // Supabase (read from local.properties)
+        buildConfigField("String", "SUPABASE_URL", "\"${localProperties.getProperty("SUPABASE_URL", "")}\"")
+        buildConfigField("String", "SUPABASE_ANON_KEY", "\"${localProperties.getProperty("SUPABASE_ANON_KEY", "")}\"")
     }
 
     buildTypes {
