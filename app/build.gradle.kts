@@ -27,10 +27,7 @@ android {
         versionCode = 1
         versionName = "1.0.0"
 
-        // Backend API URL
         buildConfigField("String", "API_BASE_URL", "\"https://capivarex-production.up.railway.app\"")
-
-        // Supabase (read from local.properties)
         buildConfigField("String", "SUPABASE_URL", "\"${localProperties.getProperty("SUPABASE_URL", "")}\"")
         buildConfigField("String", "SUPABASE_ANON_KEY", "\"${localProperties.getProperty("SUPABASE_ANON_KEY", "")}\"")
     }
@@ -55,10 +52,8 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlin {
-        compilerOptions {
-            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
-        }
+    kotlinOptions {
+        jvmTarget = "17"
     }
 
     buildFeatures {
@@ -86,9 +81,9 @@ dependencies {
     // Navigation
     implementation("androidx.navigation:navigation-compose:2.8.5")
 
-    // Hilt DI
-    implementation("com.google.dagger:hilt-android:2.59.2")
-    ksp("com.google.dagger:hilt-compiler:2.59.2")
+    // Hilt DI — must match root build.gradle.kts version (2.53.1)
+    implementation("com.google.dagger:hilt-android:2.53.1")
+    ksp("com.google.dagger:hilt-compiler:2.53.1")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
     // Networking
@@ -98,8 +93,8 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
 
-    // Supabase
-    implementation(platform("io.github.jan-tennert.supabase:bom:3.1.1"))
+    // Supabase — BOM 3.0.3 is compatible with Kotlin 2.1.x
+    implementation(platform("io.github.jan-tennert.supabase:bom:3.0.3"))
     implementation("io.github.jan-tennert.supabase:auth-kt")
     implementation("io.github.jan-tennert.supabase:postgrest-kt")
     implementation("io.ktor:ktor-client-okhttp:3.0.3")
@@ -112,11 +107,4 @@ dependencies {
 
     // Splash screen
     implementation("androidx.core:core-splashscreen:1.0.1")
-}
-
-// Force kotlin-metadata-jvm to support Kotlin 2.3.0 metadata in Hilt/Dagger
-configurations.all {
-    resolutionStrategy {
-        force("org.jetbrains.kotlin:kotlin-metadata-jvm:2.3.0")
-    }
 }
