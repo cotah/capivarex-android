@@ -1,0 +1,7 @@
+<resources>
+    <color name="gold">#FFD4A017</color>
+    <color name="gold_bright">#FFF5C842</color>
+    <color name="void_black">#FF0A0A0A</color>
+    <color name="surface">#FF111111</color>
+    <color name="surface_2">#FF1A1A1A</color>
+</resources>
